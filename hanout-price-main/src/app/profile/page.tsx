@@ -21,13 +21,14 @@ import { useTranslation } from '@/app/i18n/client';
 import { cn } from '@/lib/utils';
 import { ContributionsChart, type ChartData } from '@/components/contributions-chart';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import type { Locale } from 'date-fns';
 import { useRouter } from 'next/navigation';
 
 
 const locales: { [key: string]: Locale } = { fr, ar };
 
 // This maps badge IDs/names from Firestore to Lucide icons
-const badgeIcons: { [key: string]: React.ComponentType<{ className?: string }> } = {
+const badgeIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   'Super Contributeur': Award,
   'Chasseur de bons plans': Rocket,
   'Explorateur de quartier': ShieldCheck,
