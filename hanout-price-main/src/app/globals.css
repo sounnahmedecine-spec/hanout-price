@@ -1,21 +1,3 @@
-/* src/styles/globals.css */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-@import './tokens.css';
-
-@layer base {
-  :root {
-    --background: var(--bg);
-    --foreground: var(--text);
-    --card: var(--card-bg);
-    --primary: var(--primary);
-    --primary-foreground: var(--card-bg);
-    --secondary: #f1f5f9; /* slate-100 */
-    --secondary-foreground: #0f172a; /* slate-900 */
-    --muted: #f1f5f9; /* slate-100 */
-    --muted-foreground: #64748b; /* slate-500 */
-    --accent: var(--accent);
-    --radius: var(--radius);
-  }
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

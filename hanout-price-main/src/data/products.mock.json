@@ -1,0 +1,38 @@
+
+[
+  {
+    "id": "1",
+    "name": "Lait UHT Centrale",
+    "price": 9.50,
+    "unit": "1L",
+    "image": "/mock/lait.jpg"
+  },
+  {
+    "id": "2",
+    "name": "Sucre en morceaux",
+    "price": 8.00,
+    "unit": "1kg",
+    "image": "/mock/sucre.jpg"
+  },
+  {
+    "id": "3",
+    "name": "Huile de tournesol",
+    "price": 22.50,
+    "unit": "1L",
+    "image": "/mock/huile.jpg"
+  },
+  {
+    "id": "4",
+    "name": "Farine de blé tendre",
+    "price": 10.00,
+    "unit": "1kg",
+    "image": "/mock/farine.jpg"
+  },
+  {
+    "id": "5",
+    "name": "Thé vert Sultan",
+    "price": 15.00,
+    "unit": "200g",
+    "image": "/mock/the.jpg"
+  }
+]
