@@ -1,0 +1,37 @@
+[
+  {
+    "id": "user-1",
+    "name": "Abdelali",
+    "avatar": "https://randomuser.me/api/portraits/men/75.jpg",
+    "points": 1520,
+    "rank": 1
+  },
+  {
+    "id": "user-2",
+    "name": "FatimaZahra",
+    "avatar": "https://randomuser.me/api/portraits/women/75.jpg",
+    "points": 1480,
+    "rank": 2
+  },
+  {
+    "id": "user-3",
+    "name": "Youssef",
+    "avatar": "https://randomuser.me/api/portraits/men/76.jpg",
+    "points": 1250,
+    "rank": 3
+  },
+  {
+    "id": "user-4",
+    "name": "Khadija",
+    "avatar": "https://randomuser.me/api/portraits/women/76.jpg",
+    "points": 980,
+    "rank": 4
+  },
+  {
+    "id": "user-5",
+    "name": "Mehdi",
+    "avatar": "https://randomuser.me/api/portraits/men/77.jpg",
+    "points": 760,
+    "rank": 5
+  }
+]

@@ -1,0 +1,14 @@
+:root{
+  --primary: #2E7D32;
+  --cta: #FFA94D;
+  --accent: #4D9BFF;
+  --text: #333333;
+  --bg: #F7F7F7;
+  --card-bg: #FFFFFF;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

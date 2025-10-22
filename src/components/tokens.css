@@ -1,0 +1,11 @@
+/* Design Tokens for Hanout Price v2 */
+:root {
+  --primary: #2E7D32; /* Vert confiance */
+  --cta: #FFA94D;     /* Orange dynamique */
+  --accent: #4D9BFF;  /* Bleu frais */
+  --text: #333333;
+  --bg: #F7F7F7;
+  --card-bg: #FFFFFF;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(0,0,0,0.06);
+}

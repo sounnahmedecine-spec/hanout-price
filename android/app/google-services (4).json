@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "723446816365",
+    "project_id": "studio-9692019390-ae379",
+    "storage_bucket": "studio-9692019390-ae379.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723446816365:android:fb9631b7fabed2f4406964",
+        "android_client_info": {
+          "package_name": "com.example.hanout_price"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "723446816365-028g0de2rav2iedmeebcgqavpn67ueno.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOrqy7EqhVlShFPRfwpfnoV4c7EbT4O5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "723446816365-028g0de2rav2iedmeebcgqavpn67ueno.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723446816365:android:1f4a2008db158278406964",
+        "android_client_info": {
+          "package_name": "com.hanoutprice.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "723446816365-dl5ftvmqfsra225iauh2nv117lv5en79.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hanoutprice.app",
+            "certificate_hash": "42a3b25e71bb8db924935605b4d008cbc908813c"
+          }
+        },
+        {
+          "client_id": "723446816365-028g0de2rav2iedmeebcgqavpn67ueno.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOrqy7EqhVlShFPRfwpfnoV4c7EbT4O5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "723446816365-028g0de2rav2iedmeebcgqavpn67ueno.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

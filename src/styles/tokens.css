@@ -1,0 +1,10 @@
+:root {
+  --primary: #2E7D32;   /* vert Hanout */
+  --cta: #FFA94D;       /* orange accent */
+  --accent: #4D9BFF;    /* bleu secondaire */
+  --text: #333333;
+  --bg: #F7F7F7;
+  --card-bg: #FFFFFF;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(0,0,0,0.06);
+}

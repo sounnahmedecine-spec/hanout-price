@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "name": "Coca-Cola 1.5L",
+    "image": "https://res.cloudinary.com/db2ljqpdt/image/upload/v1719778335/coca-cola_k5u29a.png",
+    "price": "0.80",
+    "currency": "€",
+    "store": "Carrefour Market",
+    "upvotes": 12,
+    "downvotes": 1
+  },
+  {
+    "id": "2",
+    "name": "Lait Candia 1L",
+    "image": "https://res.cloudinary.com/db2ljqpdt/image/upload/v1719778335/candia-lait_f7g3s1.png",
+    "price": "1.10",
+    "currency": "€",
+    "store": "Hanout Omar",
+    "upvotes": 25,
+    "downvotes": 3
+  },
+  {
+    "id": "3",
+    "name": "Pain baguette",
+    "image": "https://res.cloudinary.com/db2ljqpdt/image/upload/v1719778335/baguette_k5gq4v.png",
+    "price": "0.50",
+    "currency": "€",
+    "store": "Boulangerie du coin",
+    "upvotes": 42,
+    "downvotes": 0
+  },
+  {
+    "id": "4",
+    "name": "Fromage Kiri 12 portions",
+    "image": "https://res.cloudinary.com/db2ljqpdt/image/upload/v1719778335/kiri_v9v3j2.png",
+    "price": "2.50",
+    "currency": "€",
+    "store": "Marjane Market",
+    "upvotes": 8,
+    "downvotes": 2
+  }
+]
