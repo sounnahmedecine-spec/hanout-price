@@ -53,7 +53,7 @@ function Hit({ hit }: { hit: AlgoliaHit<PriceRecord> }) {
   const priceRecordWithId = { ...hit, id: hit.objectID };
 
   return (
-    <Link href={`/prices/${hit.objectID}`} className="grid grid-cols-[auto,1fr,auto] items-center gap-4 p-4 hover:bg-secondary transition-colors rounded-lg">
+    <Link href={`/prices/${hit.objectID}`} className="grid grid-cols-[auto,1fr,auto] items-center gap-4 p-4 hover:bg-secondary transition-colors rounded-lg cursor-pointer">
         <div className="w-12 h-12 rounded-md bg-muted flex-shrink-0 relative">
             {hit.imageUrl ? (
             <Image src={hit.imageUrl} alt={hit.productName} fill className="object-cover rounded-md" />
@@ -63,18 +63,18 @@ function Hit({ hit }: { hit: AlgoliaHit<PriceRecord> }) {
             </div>
             )}
         </div>
-        <div className="flex-1">
+        <div className="flex-1 overflow-hidden">
             <h3 className="font-semibold text-base">
             <Highlight attribute="productName" hit={hit} />
             </h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground truncate">
             chez <Highlight attribute="storeName" hit={hit} />
             </p>
             <div className="md:hidden mt-2">
             <VoteButtons priceRecord={priceRecordWithId} />
             </div>
         </div>
-        <div className="flex flex-col items-end gap-1">
+        <div className="flex flex-col items-end gap-1 text-right">
             <p className="font-semibold text-lg text-primary">
                 {Number(hit.price).toFixed(2)} MAD
             </p>

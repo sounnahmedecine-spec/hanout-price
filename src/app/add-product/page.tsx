@@ -1,58 +1,71 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { useUser } from '@/firebase';
-import AddProductFlow from '@/components/add-product-flow';
-import { Skeleton } from '@/components/ui/skeleton';
+import { type ComponentProps } from 'react';
 import Link from 'next/link';
 import { LogIn } from 'lucide-react';
-
-// ----------------------------------------------------------
-// ✅ Composant principal
-// ----------------------------------------------------------
-export default function AddProductPage() {
-  const { user, isUserLoading } = useUser();
-
-  if (isUserLoading) return <AddProductSkeleton />;
-  if (!user) return <LoggedOutAddProduct />;
-  return <AddProductFlow />;
-}
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useUser } from 'reactfire';
+import AddProductFlow from '@/components/add-product-flow';
+import { Skeleton } from '@/components/ui/skeleton'; 
+import { noSsr } from '@/components/dynamic-no-ssr';
+// import { EmailVerificationGuard } from '@/components/auth/EmailVerificationGuard';
 
 // ----------------------------------------------------------
 // 🔸 État non connecté
 // ----------------------------------------------------------
 function LoggedOutAddProduct() {
   return (
-    <div className="container mx-auto px-4 max-w-2xl mt-8">
+    <div className="container mx-auto mt-8 max-w-2xl px-4">
       <Card className="text-center">
         <CardHeader>
           <CardTitle className="text-2xl font-headline">Connectez-vous pour contribuer</CardTitle>
           <CardDescription>Créez un compte pour ajouter des prix.</CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button asChild>
-            <Link href="/login?redirect=/add-product">
-              <LogIn className="mr-2 h-4 w-4" />
-              Se connecter
-            </Link>
-          </Button>
-          <Button asChild variant="secondary">
-            <Link href="/register?redirect=/add-product">Créer un compte</Link>
-          </Button>
+        <CardContent className="flex flex-col justify-center gap-4 sm:flex-row">
+          <AuthLinkButton href="/login?redirect=/add-product">
+            <LogIn className="mr-2 h-4 w-4" />
+            Se connecter
+          </AuthLinkButton>
+          <AuthLinkButton href="/register?redirect=/add-product" variant="secondary">
+            Créer un compte
+          </AuthLinkButton>
         </CardContent>
       </Card>
     </div>
   );
 }
 
+// Composant de bouton réutilisable pour les liens d'authentification
+function AuthLinkButton({ href, variant, children }: { href: string; variant?: ComponentProps<typeof Button>['variant']; children: React.ReactNode }) {
+    return (
+        <Button asChild variant={variant}><Link href={href}>{children}</Link></Button>
+    );
+}
+
+// ----------------------------------------------------------
+// ✅ Composant principal
+// ----------------------------------------------------------
+function AddProductPageContent() {
+  const { status, data: user } = useUser();
+
+  if (status === 'loading') return <AddProductSkeleton />;
+  if (!user) return <LoggedOutAddProduct />;
+  return (
+    // <EmailVerificationGuard>
+      <AddProductFlow />
+    // </EmailVerificationGuard>
+  );
+}
+
+export default noSsr(() => Promise.resolve({ default: AddProductPageContent }));
+
 // ----------------------------------------------------------
 // 🔸 Loader squelette
 // ----------------------------------------------------------
 function AddProductSkeleton() {
   return (
-    <div className="container mx-auto px-4 max-w-2xl">
-      <Skeleton className="h-8 w-24 mb-4" />
+    <div className="container mx-auto max-w-2xl px-4">
       <Card>
         <CardHeader>
           <Skeleton className="h-8 w-48" />

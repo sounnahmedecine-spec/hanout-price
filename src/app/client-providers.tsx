@@ -2,7 +2,7 @@
 
 import { FirebaseProvider } from '@/firebase';
 import { I18nextProvider } from 'react-i18next';
-import i18n from '@/app/i18n/client';
+import { i18n } from '@/app/i18n/client';
 import { getApp, getApps, initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';

@@ -1,41 +1,44 @@
 'use client';
 
-import { I18nextProvider, useTranslation as useTranslationOrg, UseTranslationOptions } from 'react-i18next';
-import i18next from 'i18next';
+import { useEffect } from 'react';
+import i18next, { type KeyPrefix } from 'i18next';
+import {
+  initReactI18next,
+  useTranslation as useTranslationOrg,
+  type UseTranslationOptions,
+  type FallbackNs,
+} from 'react-i18next';
+import resourcesToBackend from 'i18next-resources-to-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import resources from './locales';
-import { ReactNode, useEffect } from 'react';
+import { getOptions } from './settings';
 
+//
 i18next
+  .use(initReactI18next)
   .use(LanguageDetector)
+  .use(resourcesToBackend((language: string, namespace: string) => import(`./locales/${language}/${namespace}.json`)))
   .init({
-    resources,
-    fallbackLng: 'fr',
+    ...getOptions(),
+    lng: undefined, // let browser language detector handle it
     detection: {
-      order: ['localStorage', 'navigator'],
-      caches: ['localStorage'],
-    },
-    interpolation: {
-      escapeValue: false, // React already safes from xss
+      order: ['path', 'htmlTag', 'cookie', 'navigator'],
     },
   });
 
-export function useTranslation(ns?: string | string[], options?: UseTranslationOptions<unknown> | undefined) {
-    const ret = useTranslationOrg(ns, options);
-    
-    useEffect(() => {
-        if (typeof document !== 'undefined') {
-            const dir = i18next.dir(i18next.language);
-            document.documentElement.dir = dir;
-            document.documentElement.lang = i18next.language;
-        }
-    }, [ret.i18n.language]);
+export { i18next as i18n };
 
-    return ret;
+export function useTranslation<
+  Ns extends FallbackNs<"translation">,
+  KPrefix extends KeyPrefix<Ns> = undefined
+>(
+  ns?: Ns,
+  options?: UseTranslationOptions<KPrefix>,
+) {
+  const ret = useTranslationOrg(ns, options);
+  const { i18n } = ret;
+  useEffect(() => {
+    if (i18n.resolvedLanguage === 'ar') document.dir = 'rtl';
+    else document.dir = 'ltr';
+  }, [i18n.resolvedLanguage]);
+  return ret;
 }
-
-export function I18nProvider({ children }: { children: ReactNode }) {
-    return <I18nextProvider i18n={i18next}>{children}</I18nextProvider>;
-}
-
-export default i18next;
