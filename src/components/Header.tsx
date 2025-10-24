@@ -2,24 +2,16 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/firebase';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { motion } from 'framer-motion';
 
 const Header = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const router = useRouter();
-  const { user, userProfile } = useUser();
-
-  const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && searchQuery.trim() !== '') {
-      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-    }
-  };
-
   return (
-    <header className="bg-card-bg shadow-md sticky top-0 z-50">
+    <motion.header
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ type: 'spring', stiffness: 50, damping: 20 }}
+      className="bg-green text-white shadow-lg sticky top-0 z-50"
+    >
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center">
@@ -32,33 +24,18 @@ const Header = () => {
           />
         </Link>
 
-        {/* Search Bar */}
-        <div className="w-1/2">
-          <input
-            type="text"
-            placeholder="Rechercher un produit..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={handleSearchSubmit}
-            className="w-full px-4 py-2 border rounded-full bg-bg focus:outline-none focus-ring-2 focus:ring-primary"
-          />
-        </div>
-
-        {/* Profile Icon */}
-        <div>
-          {userProfile ? (
-            <Link href="/profile">
-              <Avatar>
-                <AvatarImage src={userProfile.profilePictureUrl} alt={userProfile.username} />
-                <AvatarFallback>{userProfile.username?.charAt(0).toUpperCase()}</AvatarFallback>
-              </Avatar>
-            </Link>
-          ) : (
-            <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
-          )}
-        </div>
+        {/* CTA Button */}
+        <Link href="/add-price">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-coral text-white font-bold py-2 px-4 rounded-full shadow-md transition-colors duration-300"
+          >
+            Ajouter un prix
+          </motion.button>
+        </Link>
       </div>
-    </header>
+    </motion.header>
   );
 };
 

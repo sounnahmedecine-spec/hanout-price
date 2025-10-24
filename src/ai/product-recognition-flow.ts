@@ -1,5 +1,5 @@
-
 'use server';
+
 /**
  * @fileOverview Flux Genkit pour la reconnaissance d'images de produits.
  *
@@ -8,8 +8,8 @@
  * - ProductRecognitionOutput - Le type de retour pour la fonction.
  */
 
-import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
+import ai from '@/ai/genkit';
+import { z } from 'zod';
 
 const ProductRecognitionInputSchema = z.object({
   photoDataUri: z

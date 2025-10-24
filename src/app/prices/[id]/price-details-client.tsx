@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useDoc, useCollection, useFirestore, useUser, useMemoFirebase } from '@/firebase';
-import { PriceRecord, Comment } from '@/lib/types';
-import { doc, collection, query, orderBy, addDoc, serverTimestamp } from 'firebase/firestore';
+import { PriceRecord, Comment, GeoPoint } from '@/lib/types';
+import { doc, collection, query, orderBy, addDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -70,7 +70,7 @@ function CommentsSection({ priceRecordId }: { priceRecordId: string }) {
         return (
             <div className="text-center py-8 text-muted-foreground">
                 <MessageCircle className="mx-auto h-8 w-8 mb-2" />
-                <p className="text-sm">Aucun commentaire pour l'instant.</p>
+                <p className="text-sm">Aucun commentaire pour l&apos;instant.</p>
                 <p className="text-sm">Soyez le premier à réagir !</p>
             </div>
         );
@@ -81,7 +81,7 @@ function CommentsSection({ priceRecordId }: { priceRecordId: string }) {
             {comments.map(comment => (
                 <div key={comment.id} className="flex gap-3">
                     <Avatar>
-                        <AvatarImage src={comment.userProfilePictureUrl} />
+                        <AvatarImage src={comment.userAvatar} />
                         <AvatarFallback><UserIcon className="h-5 w-5" /></AvatarFallback>
                     </Avatar>
                     <div className="flex-1">
@@ -152,9 +152,9 @@ export default function PriceDetailsClient({ priceRecord }: { priceRecord: Price
                         </div>
                         <div className="flex-1">
                             <CardTitle className="font-headline text-2xl">{priceRecord.productName}</CardTitle>
-                            <CardDescription>Trouvé chez {priceRecord.storeName}</CardDescription>
+                            <CardDescription>Trouvé chez {priceRecord.shopName}</CardDescription>
                             <p className="text-xs text-muted-foreground mt-1">
-                                {priceRecord.timestamp ? `Ajouté ${formatDistanceToNow(toDate(priceRecord.timestamp), { addSuffix: true, locale: fr })}` : ''}
+                                {priceRecord.timestamp instanceof Timestamp ? `Ajouté ${formatDistanceToNow(toDate(priceRecord.timestamp), { addSuffix: true, locale: fr })}` : ''}
                             </p>
                         </div>
                     </div>

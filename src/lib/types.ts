@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import type { Timestamp } from "firebase/firestore";
+import type { FieldValue } from "firebase/firestore";
 
 export type Product = {
   id: string;
@@ -45,10 +46,10 @@ export type GeoPoint = {
 export type PriceRecord = {
   id: string;
   productName: string;
-  storeName:string;
+  shopName:string;
   price: number;
   userId: string;
-  timestamp: Timestamp;
+  timestamp: Timestamp | FieldValue;
   imageUrl?: string;
   barcode?: string;
   upvotes: number;
@@ -64,7 +65,7 @@ export type Comment = {
   text: string;
   userId: string;
   username: string;
-  userProfilePictureUrl?: string;
+  userAvatar?: string; // Renamed from userProfilePictureUrl
   priceRecordId: string;
   timestamp: Timestamp;
 };

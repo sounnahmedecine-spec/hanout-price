@@ -59,7 +59,7 @@ export function EmailVerificationGuard({ children }: { children: ReactNode }) {
         <CardContent>
           <Button onClick={handleResendVerification} disabled={isSending}>
             {isSending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Renvoyer l'e-mail de vérification
+            Renvoyer l&apos;e-mail de vérification
           </Button>
         </CardContent>
         <CardFooter className="flex justify-center">

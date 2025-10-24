@@ -1,36 +1,46 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { PriceRecord } from '@/lib/types';
-import VoteButtons from '@/app/vote-buttons'; // Corrected path based on file list
+import { motion } from 'framer-motion';
+import { PriceRecord } from '@/lib/types'; // Assuming this type is still relevant
 
 interface ProductCardProps {
-  record: PriceRecord;
+  product: PriceRecord;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ record }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
-    <Link href={`/prices/${record.id}`} className="block h-full">
-      <div className="bg-card-bg rounded-lg shadow-md overflow-hidden transition-transform duration-200 hover:scale-105 h-full flex flex-col">
+    <motion.div
+      whileHover={{ y: -5, scale: 1.02 }}
+      className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col h-full group"
+    >
+      <Link href={`/prices/${product.id}`} className="block">
         <div className="relative h-48 w-full">
           <Image
-            src={record.imageUrl || 'https://res.cloudinary.com/db2ljqpdt/image/upload/v1719778335/placeholder_mummye.png'}
-            alt={record.productName}
-            layout="fill"
-            objectFit="cover"
+            src={product.imageUrl || 'https://via.placeholder.com/300'}
+            alt={product.productName}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-110"
           />
         </div>
-        <div className="p-4 flex-grow flex flex-col justify-between">
-          <div>
-            <h3 className="font-heading text-lg font-bold text-text mb-1 truncate" title={record.productName}>{record.productName}</h3>
-            <p className="text-sm text-gray-500 mb-2">{record.storeName}</p>
-          </div>
-          <div className="flex justify-between items-center mt-2">
-            <p className="font-heading text-xl font-bold text-primary">{record.price.toFixed(2)} €</p>
-            <VoteButtons priceRecord={record} />
-          </div>
+      </Link>
+      <div className="p-4 flex-grow flex flex-col">
+        <h3 className="font-bold text-lg text-grayDark truncate" title={product.productName}>
+          {product.productName}
+        </h3>
+        <p className="text-sm text-gray-500 mb-2">{product.shopName}</p>
+        
+        <div className="mt-auto flex justify-between items-center pt-4">
+          <p className="font-bold text-xl text-green">{product.price.toFixed(2)} MAD</p>
+          <Link href={`/prices/${product.id}`} className="block">
+            <button className="bg-coral text-white text-sm font-bold py-2 px-4 rounded-full transform transition-transform duration-300 group-hover:scale-105">
+              Voir le prix
+            </button>
+          </Link>
         </div>
       </div>
-    </Link>
+    </motion.div>
   );
 };
 

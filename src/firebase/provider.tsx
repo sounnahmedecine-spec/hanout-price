@@ -169,11 +169,11 @@ export const useUser = (): UserHookResult => {
 
 type MemoFirebase <T> = T & {__memo?: boolean};
 
-export function useMemoFirebase<T>(factory: () => T, deps: DependencyList): T | (MemoFirebase<T>) {
-  const memoized = useMemo(factory, deps);
+export function useMemoFirebase<T>(factory: () => T, deps: DependencyList): T {
+  const memoized = useMemo(factory, [factory, ...deps]);
   
   if(typeof memoized !== 'object' || memoized === null) return memoized;
-  (memoized as MemoFirebase<T>).__memo = true;
+  (memoized as MemoFirebase<T>).__memo = true; // This seems to be for a specific purpose, leaving it as is.
   
   return memoized;
 }

@@ -1,17 +1,20 @@
 'use client';
 
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
-import { useAuth, useUser } from '@/firebase'; // Import useAuth and useUser
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { useAuth, useUser } from '@/firebase';
+import { initiateEmailSignIn, initiateGoogleSignIn } from '@/firebase/non-blocking-login';
+import { Mail, Lock, Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
   const auth = useAuth();
   const { user, isUserLoading } = useUser();
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Redirect if user is already logged in
   useEffect(() => {
@@ -20,61 +23,119 @@ export default function LoginPage() {
     }
   }, [user, isUserLoading, router]);
 
-  const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
+  const handleEmailSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
     try {
-      await signInWithPopup(auth, provider);
-      // The onAuthStateChanged listener in FirebaseProvider will handle the redirect
-      // after successful login, but we can push optimistically.
-      router.push('/');
+      await initiateEmailSignIn(auth, email, password);
+      // The onAuthStateChanged listener will handle the redirect
     } catch (error) {
-      console.error("Error during Google sign-in:", error);
-      // Handle error, e.g., show a toast notification
+      console.error("Email sign-in error:", error);
     }
+    // In a real app, you might want to handle the submitting state more robustly
+    // For now, we assume the listener will trigger a re-render and redirect.
+    // We can set a timeout to reset the button if login fails silently.
+    setTimeout(() => setIsSubmitting(false), 3000);
   };
 
-  // Don't render the login page if the user state is loading or user exists
+  const handleGoogleSignIn = () => {
+    initiateGoogleSignIn(auth);
+  };
+
   if (isUserLoading || user) {
     return (
-        <div className="flex flex-col h-screen w-full items-center justify-center bg-background">
-            {/* You can put a loading spinner here */}
-        </div>
+      <div className="flex h-screen w-full items-center justify-center bg-grayLight">
+        <Loader2 className="h-12 w-12 animate-spin text-green" />
+      </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-bg p-8 text-center">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <Image
-          src="https://res.cloudinary.com/db2ljqpdt/image/upload/v1760805185/logo-hanout-price_bgih8f.png"
-          alt="Hanout Price Logo"
-          width={250}
-          height={60}
-          priority
-        />
-      </motion.div>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-grayLight p-4">
+      <div className="w-full max-w-md space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center"
+        >
+          <Image
+            src="https://res.cloudinary.com/db2ljqpdt/image/upload/v1760805185/logo-hanout-price_bgih8f.png"
+            alt="Hanout Price Logo"
+            width={250}
+            height={60}
+            priority
+            className="mx-auto"
+          />
+          <p className="mt-4 text-lg text-gray-600">Scannez • Comparez • Économisez</p>
+        </motion.div>
 
-      <motion.p
-        className="font-heading text-xl text-text mt-4 mb-12"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
-        Scannez • Comparez • Économisez
-      </motion.p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white p-8 rounded-xl shadow-lg"
+        >
+          <form onSubmit={handleEmailSignIn} className="space-y-6">
+            <div>
+              <label htmlFor="email" className="sr-only">Email</label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Adresse e-mail"
+                  className="w-full rounded-lg border-gray-300 py-3 pl-10 pr-3 focus:border-green focus:ring-green"
+                />
+              </div>
+            </div>
 
-      <div className="space-y-4 w-full max-w-xs">
-        <Button onClick={handleGoogleSignIn} className="w-full bg-blue-600 hover:bg-blue-700 text-white py-6 text-lg">
-          Se connecter avec Google
-        </Button>
-        <p className="text-xs text-gray-500">ou</p>
-        <Button variant="outline" className="w-full py-6 text-lg" disabled>
-          Se connecter avec l'email (bientôt)
-        </Button>
+            <div>
+              <label htmlFor="password" className="sr-only">Mot de passe</label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Mot de passe"
+                  className="w-full rounded-lg border-gray-300 py-3 pl-10 pr-3 focus:border-green focus:ring-green"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full justify-center rounded-lg bg-green px-4 py-3 font-semibold text-white transition hover:bg-opacity-90 disabled:opacity-50 flex items-center"
+            >
+              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} 
+              Se connecter
+            </button>
+          </form>
+
+          <div className="my-6 flex items-center text-center">
+            <div className="flex-grow border-t border-gray-300"></div>
+            <span className="mx-4 flex-shrink text-sm text-gray-500">OU</span>
+            <div className="flex-grow border-t border-gray-300"></div>
+          </div>
+
+          <button
+            onClick={handleGoogleSignIn}
+            className="w-full justify-center rounded-lg border border-gray-300 bg-white px-4 py-3 font-semibold text-gray-700 transition hover:bg-gray-50 flex items-center"
+          >
+            <Image src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" width={20} height={20} className="mr-3" />
+            Continuer avec Google
+          </button>
+        </motion.div>
       </div>
     </div>
   );

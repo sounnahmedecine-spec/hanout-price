@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useUser, useFirestore } from '@/firebase';
 import { PriceRecord } from '@/lib/types';
-import { doc, runTransaction, arrayUnion, arrayRemove, increment, getDoc } from 'firebase/firestore';
+import { doc, runTransaction, arrayUnion, arrayRemove, increment, getDoc, FieldValue } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 
 interface VoteButtonsProps {
@@ -43,45 +43,29 @@ export default function VoteButtons({ priceRecord, className }: VoteButtonsProps
         const hasUpvoted = freshRecord.upvotedBy?.includes(userId);
         const hasDownvoted = freshRecord.downvotedBy?.includes(userId);
 
-        let upvotesChange = 0;
-        let downvotesChange = 0;
-        
-        let upvotedByUpdate = {};
-        let downvotedByUpdate = {};
+        const updateData: { [key: string]: FieldValue } = {};
 
         if (voteType === 'upvote') {
-          if (hasUpvoted) { // User is retracting their upvote
-            upvotesChange = -1;
-            upvotedByUpdate = { upvotedBy: arrayRemove(userId) };
-          } else { // New upvote
-            upvotesChange = 1;
-            upvotedByUpdate = { upvotedBy: arrayUnion(userId) };
-            if (hasDownvoted) { // Was previously downvoted, remove downvote
-              downvotesChange = -1;
-              downvotedByUpdate = { downvotedBy: arrayRemove(userId) };
-            }
+          // If user has already upvoted, retract the upvote. Otherwise, add an upvote.
+          updateData.upvotedBy = hasUpvoted ? arrayRemove(userId) : arrayUnion(userId);
+          updateData.upvotes = increment(hasUpvoted ? -1 : 1);
+
+          // If user had previously downvoted, remove the downvote as well.
+          if (hasDownvoted) {
+            updateData.downvotedBy = arrayRemove(userId);
+            updateData.downvotes = increment(-1);
           }
         } else if (voteType === 'downvote') {
-          if (hasDownvoted) { // User is retracting their downvote
-            downvotesChange = -1;
-            downvotedByUpdate = { downvotedBy: arrayRemove(userId) };
-          } else { // New downvote
-            downvotesChange = 1;
-            downvotedByUpdate = { downvotedBy: arrayUnion(userId) };
-            if (hasUpvoted) { // Was previously upvoted, remove upvote
-              upvotesChange = -1;
-              upvotedByUpdate = { upvotedBy: arrayRemove(userId) };
-            }
+          // If user has already downvoted, retract the downvote. Otherwise, add a downvote.
+          updateData.downvotedBy = hasDownvoted ? arrayRemove(userId) : arrayUnion(userId);
+          updateData.downvotes = increment(hasDownvoted ? -1 : 1);
+
+          // If user had previously upvoted, remove the upvote as well.
+          if (hasUpvoted) {
+            updateData.upvotedBy = arrayRemove(userId);
+            updateData.upvotes = increment(-1);
           }
         }
-        
-        const updateData: any = {
-            ...upvotedByUpdate,
-            ...downvotedByUpdate,
-        };
-        
-        if (upvotesChange !== 0) updateData.upvotes = increment(upvotesChange);
-        if (downvotesChange !== 0) updateData.downvotes = increment(downvotesChange);
 
         transaction.update(priceRecordRef, updateData);
       });

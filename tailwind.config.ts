@@ -1,11 +1,12 @@
 import type { Config } from 'tailwindcss';
+import { colors } from './src/ui-kit/colors';
 
 export default {
   darkMode: ['class'],
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     container: {
@@ -16,40 +17,27 @@ export default {
       },
     },
     extend: {
-      fontFamily: {
-        sans: ['var(--font-inter)', 'sans-serif'],
-        heading: ['var(--font-poppins)', 'sans-serif'],
-      },
       colors: {
-        text: 'var(--text)',
-        background: 'var(--bg)',
-        primary: 'var(--primary)',
-        cta: 'var(--cta)',
-        accent: 'var(--accent)',
-        'card-bg': 'var(--card-bg)',
+        green: colors.green,
+        coral: colors.coral,
+        blue: colors.blue,
+        grayLight: colors.grayLight,
+        grayDark: colors.grayDark,
+        white: colors.white,
       },
       borderRadius: {
-        DEFAULT: 'var(--radius)',
-      },
-      boxShadow: {
-        DEFAULT: 'var(--shadow)',
+        lg: 'var(--radius)',
+        md: `calc(var(--radius) - 2px)`,
+        sm: 'calc(var(--radius) - 4px)',
       },
       keyframes: {
         'accordion-down': {
-          from: {
-            height: '0',
-          },
-          to: {
-            height: 'var(--radix-accordion-content-height)',
-          },
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
         'accordion-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)',
-          },
-          to: {
-            height: '0',
-          },
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
         },
       },
       animation: {

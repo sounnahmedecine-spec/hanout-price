@@ -9,8 +9,7 @@ Remove-Item -Recurse -Force .next,out -ErrorAction SilentlyContinue
 
 # 1. Installation des dépendances
 Write-Host "1. Installation des dépendances npm..."
-# Forcer l'installation des dépendances critiques pour résoudre les conflits et les modules manquants
-npm install firebase reactfire --save --legacy-peer-deps
+# Install all dependencies from package.json, using --legacy-peer-deps to handle potential conflicts
 
 npm install --legacy-peer-deps
 if ($LASTEXITCODE -ne 0) {

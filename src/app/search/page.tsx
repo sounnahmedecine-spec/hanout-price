@@ -16,7 +16,7 @@ import { useUser } from '@/firebase';
 import { PriceRecord } from '@/lib/types';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import VoteButtons from '@/components/vote-buttons';
+import VoteButtons from '@/components/vote-buttons'; // This path is already correct, but good to confirm
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
 // IMPORTANT: Replace with your own Algolia credentials
@@ -68,7 +68,7 @@ function Hit({ hit }: { hit: AlgoliaHit<PriceRecord> }) {
             <Highlight attribute="productName" hit={hit} />
             </h3>
             <p className="text-sm text-muted-foreground truncate">
-            chez <Highlight attribute="storeName" hit={hit} />
+            chez <Highlight attribute="shopName" hit={hit} />
             </p>
             <div className="md:hidden mt-2">
             <VoteButtons priceRecord={priceRecordWithId} />
@@ -131,9 +131,9 @@ function SearchResults() {
            <Alert variant="destructive">
             <Search className="h-4 w-4" />
             <AlertTitle>Configuration de la recherche incomplète</AlertTitle>
-            <AlertDescription>
-                La fonctionnalité de recherche n'est pas encore activée. L'administrateur doit configurer les clés API Algolia dans les variables d'environnement.
-            </AlertDescription>
+            <AlertDescription> 
+                La fonctionnalité de recherche n&apos;est pas encore activée. L&apos;administrateur doit configurer les clés API Algolia dans les variables d&apos;environnement.
+            </AlertDescription> 
         </Alert>
       )
   }
@@ -176,7 +176,7 @@ function SearchResults() {
                     <Search className="mx-auto h-12 w-12 text-muted-foreground" />
                     <h3 className="mt-4 text-lg font-semibold">Aucun résultat trouvé</h3>
                     <p className="mt-2 text-sm text-muted-foreground">
-                        Nous n'avons trouvé aucun produit correspondant à votre recherche.
+                        Nous n&apos;avons trouvé aucun produit correspondant à votre recherche.
                     </p>
                     <Button asChild className="mt-6">
                         <Link href="/add-product">

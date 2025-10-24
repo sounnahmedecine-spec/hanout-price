@@ -3,15 +3,10 @@
 import { FirebaseProvider } from '@/firebase';
 import { I18nextProvider } from 'react-i18next';
 import { i18n } from '@/app/i18n/client';
-import { getApp, getApps, initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import { firebaseConfig } from '@/firebase/config';
+import { app, auth, firestore } from '@/firebase'; // Import pre-initialized Firebase services
 
-// Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const firestore = getFirestore(app);
-const auth = getAuth(app);
+// Firebase services are already initialized and exported from '@/firebase'
+// No need to re-initialize them here.
 
 export function ClientProviders({ children }: { children: React.ReactNode }) {
   return (
