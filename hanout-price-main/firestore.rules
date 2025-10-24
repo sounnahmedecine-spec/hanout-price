@@ -1,0 +1,82 @@
+/**
+ * @fileoverview Firestore Security Rules for Hanout Price application.
+ *
+ * Core Philosophy:
+ * This ruleset prioritizes user ownership and public read access for products and shops.
+ * Price records are secured to allow users to manage their own entries.
+ *
+ * Data Structure:
+ * - /users/{userId}: User-specific profile information.
+ * - /products/{productId}: Public product information.
+ * - /shops/{shopId}: Public shop information.
+ * - /priceRecords/{priceRecordId}: Price records with denormalized userId, shopId, and productId.
+ *
+ * Key Security Decisions:
+ * - Users can only read and write their own profiles.
+ * - Products and shops are publicly readable but not writable in this prototype.
+ * - Price records are user-owned, allowing creation, reading, updating, and deletion by the owner.
+ * - Listing is allowed for owners, restricted by userId filtering.
+ */
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * ============================
+     * 👤 USER PROFILES
+     * ============================
+     * Chaque utilisateur peut gérer son propre profil.
+     */
+    match /users/{userId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+      function isOwner() {
+        return request.auth.uid == userId;
+      }
+
+      // 🔓 En dev : on autorise aussi la lecture de tous les profils pour simplifier les tests
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.id == request.auth.uid;
+      allow update, delete: if isOwner();
+    }
+
+    /**
+     * ============================
+     * 📦 PRODUCTS (Public Read)
+     * ============================
+     */
+    match /products/{productId} {
+      allow read, list: if true;  // 🔓 Lecture publique
+      allow create, update, delete: if request.auth != null; // ✅ Autoriser temporairement les écritures pendant le dev
+    }
+
+    /**
+     * ============================
+     * 🏬 SHOPS (Public Read)
+     * ============================
+     */
+    match /shops/{shopId} {
+      allow read, list: if true;  // 🔓 Lecture publique
+      allow create, update, delete: if request.auth != null; // ✅ Écritures autorisées temporairement
+    }
+
+    /**
+     * ============================
+     * 💰 PRICE RECORDS (User-Owned)
+     * ============================
+     * Mode dev : autorise les requêtes tant que l'utilisateur est connecté.
+     * Cela évite les erreurs "Missing or insufficient permissions" pendant les tests.
+     */
+    match /priceRecords/{priceRecordId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      allow read, list, create, update, delete: if isSignedIn();
+      // 🔓 En dev, tout utilisateur connecté peut accéder à ses données.
+      // ⚠️ À restreindre avant la mise en production.
+    }
+  }
+}

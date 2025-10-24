@@ -1,0 +1,46 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-souk",
+      "description": "An immersive and colorful image of a Moroccan souk.",
+      "imageUrl": "https://picsum.photos/seed/hanout1/1920/1080",
+      "imageHint": "moroccan souk"
+    },
+    {
+      "id": "product-mint-tea",
+      "description": "A box of mint tea.",
+      "imageUrl": "https://picsum.photos/seed/hanout2/400/300",
+      "imageHint": "mint tea"
+    },
+    {
+      "id": "product-olive-oil",
+      "description": "A bottle of olive oil.",
+      "imageUrl": "https://picsum.photos/seed/hanout3/400/300",
+      "imageHint": "olive oil"
+    },
+    {
+      "id": "product-tajine-pot",
+      "description": "A traditional Moroccan tajine pot.",
+      "imageUrl": "https://picsum.photos/seed/hanout4/400/300",
+      "imageHint": "tajine pot"
+    },
+    {
+      "id": "product-amlou",
+      "description": "A jar of amlou.",
+      "imageUrl": "https://picsum.photos/seed/hanout5/400/300",
+      "imageHint": "amlou spread"
+    },
+    {
+      "id": "avatar-1",
+      "description": "Avatar for a user.",
+      "imageUrl": "https://picsum.photos/seed/avatar1/100/100",
+      "imageHint": "portrait person"
+    },
+    {
+      "id": "avatar-2",
+      "description": "Avatar for another user.",
+      "imageUrl": "https://picsum.photos/seed/avatar2/100/100",
+      "imageHint": "person smiling"
+    }
+  ]
+}

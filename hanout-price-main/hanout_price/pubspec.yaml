@@ -1,0 +1,60 @@
+name: hanout_price
+description: "Hanout Price - Comparez, scannez et partagez les prix autour de vous."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.9.2 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # --- UI & Icons ---
+  cupertino_icons: ^1.0.6 # Version compatible avec Flutter 3.x
+  google_fonts: ^6.3.2
+
+  # --- Firebase ---
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
+  firebase_messaging: ^14.7.19
+  cloud_firestore: ^4.15.8
+
+  # --- WebView & Internet ---
+  webview_flutter: ^4.13.0
+  connectivity_plus: ^6.0.3
+
+  # --- State Management ---
+  provider: ^6.1.5+1
+
+  # --- Animation / Splash ---
+  animated_text_kit: ^4.3.0
+  lottie: ^3.3.2
+
+  # --- Camera & Scanning ---
+  mobile_scanner: ^5.2.3
+
+  image_picker: ^1.2.0
+
+  # --- Firebase Storage ---
+  firebase_storage: ^11.6.9
+
+  # --- Local Storage ---
+  shared_preferences: ^2.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  # La ligne suivante garantit que l'icône Material Design est activée.
+  uses-material-design: true
+
+  # Pour ajouter des assets à votre application, ajoutez une section assets comme celle-ci :
+  assets:
+    - assets/images/logo.png
+    - assets/images/logo_white.png
+    # - assets/animations/login.json
+    # - assets/animations/signup.json
